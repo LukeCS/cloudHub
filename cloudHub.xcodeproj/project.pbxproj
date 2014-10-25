@@ -1,0 +1,427 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		057052BE19FBB38800C84DAB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052BD19FBB38800C84DAB /* main.m */; };
+		057052C119FBB38800C84DAB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052C019FBB38800C84DAB /* AppDelegate.m */; };
+		057052C419FBB38800C84DAB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052C319FBB38800C84DAB /* ViewController.m */; };
+		057052C719FBB38800C84DAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 057052C519FBB38800C84DAB /* Main.storyboard */; };
+		057052C919FBB38800C84DAB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 057052C819FBB38800C84DAB /* Images.xcassets */; };
+		057052CC19FBB38800C84DAB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 057052CA19FBB38800C84DAB /* LaunchScreen.xib */; };
+		057052D819FBB38800C84DAB /* cloudHubTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052D719FBB38800C84DAB /* cloudHubTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		057052D219FBB38800C84DAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 057052B019FBB38700C84DAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 057052B719FBB38800C84DAB;
+			remoteInfo = cloudHub;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		057052B819FBB38800C84DAB /* cloudHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cloudHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		057052BC19FBB38800C84DAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		057052BD19FBB38800C84DAB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		057052BF19FBB38800C84DAB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		057052C019FBB38800C84DAB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		057052C219FBB38800C84DAB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		057052C319FBB38800C84DAB /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		057052C619FBB38800C84DAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		057052C819FBB38800C84DAB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		057052CB19FBB38800C84DAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		057052D119FBB38800C84DAB /* cloudHubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cloudHubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		057052D619FBB38800C84DAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		057052D719FBB38800C84DAB /* cloudHubTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cloudHubTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		057052B519FBB38800C84DAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		057052CE19FBB38800C84DAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		057052AF19FBB38700C84DAB = {
+			isa = PBXGroup;
+			children = (
+				057052BA19FBB38800C84DAB /* cloudHub */,
+				057052D419FBB38800C84DAB /* cloudHubTests */,
+				057052B919FBB38800C84DAB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		057052B919FBB38800C84DAB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				057052B819FBB38800C84DAB /* cloudHub.app */,
+				057052D119FBB38800C84DAB /* cloudHubTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		057052BA19FBB38800C84DAB /* cloudHub */ = {
+			isa = PBXGroup;
+			children = (
+				057052BF19FBB38800C84DAB /* AppDelegate.h */,
+				057052C019FBB38800C84DAB /* AppDelegate.m */,
+				057052C219FBB38800C84DAB /* ViewController.h */,
+				057052C319FBB38800C84DAB /* ViewController.m */,
+				057052C519FBB38800C84DAB /* Main.storyboard */,
+				057052C819FBB38800C84DAB /* Images.xcassets */,
+				057052CA19FBB38800C84DAB /* LaunchScreen.xib */,
+				057052BB19FBB38800C84DAB /* Supporting Files */,
+			);
+			path = cloudHub;
+			sourceTree = "<group>";
+		};
+		057052BB19FBB38800C84DAB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				057052BC19FBB38800C84DAB /* Info.plist */,
+				057052BD19FBB38800C84DAB /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		057052D419FBB38800C84DAB /* cloudHubTests */ = {
+			isa = PBXGroup;
+			children = (
+				057052D719FBB38800C84DAB /* cloudHubTests.m */,
+				057052D519FBB38800C84DAB /* Supporting Files */,
+			);
+			path = cloudHubTests;
+			sourceTree = "<group>";
+		};
+		057052D519FBB38800C84DAB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				057052D619FBB38800C84DAB /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		057052B719FBB38800C84DAB /* cloudHub */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 057052DB19FBB38800C84DAB /* Build configuration list for PBXNativeTarget "cloudHub" */;
+			buildPhases = (
+				057052B419FBB38800C84DAB /* Sources */,
+				057052B519FBB38800C84DAB /* Frameworks */,
+				057052B619FBB38800C84DAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cloudHub;
+			productName = cloudHub;
+			productReference = 057052B819FBB38800C84DAB /* cloudHub.app */;
+			productType = "com.apple.product-type.application";
+		};
+		057052D019FBB38800C84DAB /* cloudHubTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 057052DE19FBB38800C84DAB /* Build configuration list for PBXNativeTarget "cloudHubTests" */;
+			buildPhases = (
+				057052CD19FBB38800C84DAB /* Sources */,
+				057052CE19FBB38800C84DAB /* Frameworks */,
+				057052CF19FBB38800C84DAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				057052D319FBB38800C84DAB /* PBXTargetDependency */,
+			);
+			name = cloudHubTests;
+			productName = cloudHubTests;
+			productReference = 057052D119FBB38800C84DAB /* cloudHubTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		057052B019FBB38700C84DAB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Luke Kartsolis";
+				TargetAttributes = {
+					057052B719FBB38800C84DAB = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					057052D019FBB38800C84DAB = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 057052B719FBB38800C84DAB;
+					};
+				};
+			};
+			buildConfigurationList = 057052B319FBB38700C84DAB /* Build configuration list for PBXProject "cloudHub" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 057052AF19FBB38700C84DAB;
+			productRefGroup = 057052B919FBB38800C84DAB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				057052B719FBB38800C84DAB /* cloudHub */,
+				057052D019FBB38800C84DAB /* cloudHubTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		057052B619FBB38800C84DAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				057052C719FBB38800C84DAB /* Main.storyboard in Resources */,
+				057052CC19FBB38800C84DAB /* LaunchScreen.xib in Resources */,
+				057052C919FBB38800C84DAB /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		057052CF19FBB38800C84DAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		057052B419FBB38800C84DAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				057052C419FBB38800C84DAB /* ViewController.m in Sources */,
+				057052C119FBB38800C84DAB /* AppDelegate.m in Sources */,
+				057052BE19FBB38800C84DAB /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		057052CD19FBB38800C84DAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				057052D819FBB38800C84DAB /* cloudHubTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		057052D319FBB38800C84DAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 057052B719FBB38800C84DAB /* cloudHub */;
+			targetProxy = 057052D219FBB38800C84DAB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		057052C519FBB38800C84DAB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				057052C619FBB38800C84DAB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		057052CA19FBB38800C84DAB /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				057052CB19FBB38800C84DAB /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		057052D919FBB38800C84DAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		057052DA19FBB38800C84DAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		057052DC19FBB38800C84DAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = cloudHub/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		057052DD19FBB38800C84DAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = cloudHub/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		057052DF19FBB38800C84DAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = cloudHubTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cloudHub.app/cloudHub";
+			};
+			name = Debug;
+		};
+		057052E019FBB38800C84DAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = cloudHubTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cloudHub.app/cloudHub";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		057052B319FBB38700C84DAB /* Build configuration list for PBXProject "cloudHub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				057052D919FBB38800C84DAB /* Debug */,
+				057052DA19FBB38800C84DAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		057052DB19FBB38800C84DAB /* Build configuration list for PBXNativeTarget "cloudHub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				057052DC19FBB38800C84DAB /* Debug */,
+				057052DD19FBB38800C84DAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		057052DE19FBB38800C84DAB /* Build configuration list for PBXNativeTarget "cloudHubTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				057052DF19FBB38800C84DAB /* Debug */,
+				057052E019FBB38800C84DAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 057052B019FBB38700C84DAB /* Project object */;
+}
