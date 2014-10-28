@@ -7,6 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import <RestKit/RestKit.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+
 
 @interface AppDelegate ()
 
