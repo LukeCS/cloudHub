@@ -5,48 +5,38 @@
 //  Created by Luke Kartsolis on 25/10/2014.
 //  Copyright (c) 2014 Luke Kartsolis. All rights reserved.
 //
+//  Client ID
+//  0ddae62c917a6464ad4d
+//  Client Secret
+//  e9f611058979231b54263f7704323b63c72e0cf1
+//
 
 #import "ViewController.h"
 #import "GHuser.h"
 #import "RestKit/Restkit.h"
 
+#define kCLIENTID @"0ddae62c917a6464ad4d"
+#define kCLIENTSECRET @"e9f611058979231b54263f7704323b63c72e0cf1"
+
 @interface ViewController ()
 
-
+@property (nonatomic, strong) NSArray *info;
 
 @end
 
 @implementation ViewController
-{
-    NSArray *arrItems;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [arrItems count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-    
-    cell.textLabel.text = [arrItems objectAtIndex:indexPath.row];
-    return cell;
-}
+@synthesize loginWebView;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    //[self configureRestKit];
-    [self loadUser];
-    arrItems = [[NSArray alloc] initWithObjects:@"Item 1",@"Item 2",@"Item3", nil];
+    [self configureRestKit];
+    //[self loadUser];
+    [self authUser];
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,16 +47,40 @@
 - (void)configureRestKit
 {
     // initialize AFNetworking HTTPClient
-    NSURL *baseURL = [NSURL URLWithString:@"https://api.github.com"];
+    NSURL *baseURL = [NSURL URLWithString:@"https://github.com"];
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
-    
     // initialize RestKit
     RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
     
-   
+    // setup object mappings
+    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHUser class]];
+    [userMapping addAttributeMappingsFromArray:@[@"id"]];
+    // register mappings with the provider using a response descriptor
+    RKResponseDescriptor *responseDescriptor =
+    /*[RKResponseDescriptor responseDescriptorWithMapping:userMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"/login/oauth/access_token"
+                                                keyPath:nil
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];*/
+    [RKResponseDescriptor responseDescriptorWithMapping:userMapping
+                                                 method:RKRequestMethodPOST
+                                            pathPattern:@"/login/oauth/authorize"
+                                                keyPath:nil
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
-
+    
+    
+    [objectManager addResponseDescriptor:responseDescriptor];
 }
+
+- (void)authUser
+{
+    NSString *url = @"https://github.com/login/oauth/authorize?client_id=0ddae62c917a6464ad4d&client_secret=e9f611058979231b54263f7704323b63c72e0cf1";
+    
+    
+    [loginWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+}
+
 
 - (void)loadUser
 {
@@ -111,11 +125,12 @@
         // For loop for debuggind reasons
         for(int i = 0; i < [mappingResult count]; i++){
             GHUser *user = mappingResult.array[i];
-            if ([user.login isEqualToString:@"LukeCS"]) {
+            //if ([user.login isEqualToString:@"LukeCS"]) {
                 NSLog(@"User name, %@", user.login);
                 NSLog(@"User id, %@", user.id);
-            }
+            //}
         }
+         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         RKLogError(@"Operation failed with error: %@", error);
     }];
