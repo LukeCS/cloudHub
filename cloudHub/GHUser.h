@@ -9,8 +9,11 @@
 @interface GHUser : NSObject
 
 @property (nonatomic, retain) NSString* login;
-@property (nonatomic, retain) NSString* id;
+@property (nonatomic, retain) NSString* userId;
 @property (nonatomic, retain) NSString* avatar_url;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSNumber *publicReposCount;
+@property (nonatomic, strong) NSNumber *publicGistsCount;
 @property (nonatomic, retain) NSString* gravatar_id;
 @property (nonatomic, retain) NSString* url;
 @property (nonatomic, retain) NSString* html_url;

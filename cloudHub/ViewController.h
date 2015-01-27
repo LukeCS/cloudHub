@@ -8,9 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UIWebViewDelegate>
+@interface ViewController : UIViewController <UIWebViewDelegate, NSURLConnectionDataDelegate>
 
-@property (strong, nonatomic) IBOutlet UIWebView *loginWebView;
+typedef enum {
+    httpMethod_GET,
+    httpMethod_POST,
+    httpMethod_DELETE,
+    httpMethod_PUT
+} HTTP_Method;
+
+@property (nonatomic, retain) UIWebView *loginView;
+@property (nonatomic, retain) UIButton  *loginButton;
+@property (nonatomic, retain) UILabel   *label1;
+@property (nonatomic, retain) UILabel   *label2;
+@property (nonatomic, retain) UILabel   *label3;
+@property (nonatomic, retain) UITapGestureRecognizer *tapArea;
 
 @end
 

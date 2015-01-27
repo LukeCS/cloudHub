@@ -18,6 +18,47 @@
 
 @implementation AppDelegate
 
+- (NSDictionary *)parseQueryString:(NSString *)query {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:6];
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+    
+    for (NSString *pair in pairs) {
+        NSArray *elements = [pair componentsSeparatedByString:@"="];
+        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        [dict setObject:val forKey:key];
+    }
+    return dict;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    NSLog(@"URL: %@", url);
+    if([[url host] isEqualToString:@"auth"]) {
+        NSDictionary *params = [self parseQueryString:[[url fragment] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+        // Store the access token
+        NSLog(@"Saving new token: %@", params);
+        [[NSUserDefaults standardUserDefaults] setObject:[params objectForKey:@"access_token"] forKey:OADTokenDefaultsName];
+        
+        // Calculate the expiration date so we know if the token is invalid
+        NSDate *expDate = [NSDate dateWithTimeIntervalSinceNow:[[params objectForKey:@"expires_in"] integerValue]];
+        NSLog(@"Expires at: %@", expDate);
+        [[NSUserDefaults standardUserDefaults] setObject:expDate forKey:OADTokenExpirationDefaultsName];
+        
+        // Store the username
+        [[NSUserDefaults standardUserDefaults] setObject:[params objectForKey:@"username"] forKey:OADUsernameDefaultsName];
+        
+        // Save
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        // Notify the view that a new token is available
+        [[NSNotificationCenter defaultCenter] postNotificationName:OADNewTokenAvailable object:self];
+    }
+    
+    return YES;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
