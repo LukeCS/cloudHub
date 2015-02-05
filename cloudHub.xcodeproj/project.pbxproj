@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		051916891A782328001041C0 /* GHMappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 051916881A782328001041C0 /* GHMappingProvider.m */; };
-		0519168B1A7823AA001041C0 /* GHRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 0519168A1A7823AA001041C0 /* GHRepository.m */; };
-		0519168E1A78248D001041C0 /* GHUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0519168D1A78248D001041C0 /* GHUserManager.m */; };
 		057052BE19FBB38800C84DAB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052BD19FBB38800C84DAB /* main.m */; };
 		057052C119FBB38800C84DAB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052C019FBB38800C84DAB /* AppDelegate.m */; };
 		057052C419FBB38800C84DAB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052C319FBB38800C84DAB /* ViewController.m */; };
@@ -73,12 +70,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		051916831A782264001041C0 /* GHRepository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GHRepository.h; sourceTree = "<group>"; };
-		051916871A7822D1001041C0 /* GHMappingProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GHMappingProvider.h; sourceTree = "<group>"; };
-		051916881A782328001041C0 /* GHMappingProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHMappingProvider.m; sourceTree = "<group>"; };
-		0519168A1A7823AA001041C0 /* GHRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHRepository.m; sourceTree = "<group>"; };
-		0519168C1A782428001041C0 /* GHUserManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GHUserManager.h; sourceTree = "<group>"; };
-		0519168D1A78248D001041C0 /* GHUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUserManager.m; sourceTree = "<group>"; };
 		057052B819FBB38800C84DAB /* cloudHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cloudHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		057052BC19FBB38800C84DAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		057052BD19FBB38800C84DAB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -167,12 +158,6 @@
 				057052C319FBB38800C84DAB /* ViewController.m */,
 				0570530119FBB83F00C84DAB /* GHUser.h */,
 				057052FF19FBB76500C84DAB /* GHUser.m */,
-				051916831A782264001041C0 /* GHRepository.h */,
-				0519168A1A7823AA001041C0 /* GHRepository.m */,
-				051916871A7822D1001041C0 /* GHMappingProvider.h */,
-				051916881A782328001041C0 /* GHMappingProvider.m */,
-				0519168C1A782428001041C0 /* GHUserManager.h */,
-				0519168D1A78248D001041C0 /* GHUserManager.m */,
 				057052C519FBB38800C84DAB /* Main.storyboard */,
 				057052C819FBB38800C84DAB /* Images.xcassets */,
 				057052CA19FBB38800C84DAB /* LaunchScreen.xib */,
@@ -357,12 +342,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0519168E1A78248D001041C0 /* GHUserManager.m in Sources */,
 				057052C419FBB38800C84DAB /* ViewController.m in Sources */,
 				0570530019FBB76500C84DAB /* GHUser.m in Sources */,
-				051916891A782328001041C0 /* GHMappingProvider.m in Sources */,
 				057052C119FBB38800C84DAB /* AppDelegate.m in Sources */,
-				0519168B1A7823AA001041C0 /* GHRepository.m in Sources */,
 				057052BE19FBB38800C84DAB /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

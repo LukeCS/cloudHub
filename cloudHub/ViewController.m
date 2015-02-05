@@ -33,7 +33,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     [self viewIntroScreen];
-    [self configureRestKit];
+    [self configureRestKit:@"/login/oauth/authorize"];
     //[self loadUser];
 }
 
@@ -93,7 +93,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)configureRestKit
+- (void)configureRestKit:(NSString *)str
 {
     // Initialize AFNetworking HTTPClient
     NSURL *baseURL = [NSURL URLWithString:@"https://github.com"];
@@ -105,20 +105,12 @@
     RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHUser class]];
     [userMapping addAttributeMappingsFromArray:@[@"id"]];
     // Register mappings with the provider using a response descriptor
-    RKResponseDescriptor *responseDescriptor =
-    /*[RKResponseDescriptor responseDescriptorWithMapping:userMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"/login/oauth/access_token"
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];*/
-    [RKResponseDescriptor responseDescriptorWithMapping:userMapping
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping
                                                  method:RKRequestMethodPOST
-                                            pathPattern:@"/login/oauth/authorize"
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    
-    
+                                                 pathPattern:str
+                                                 keyPath:nil
+                                                 statusCodes:[NSIndexSet indexSetWithIndex:200]];
+
     [objectManager addResponseDescriptor:responseDescriptor];
 }
 
@@ -158,7 +150,6 @@
     [self.loginView loadRequest:urlRequest];
 }
 
-
 - (void)userAuthorized{
     
     self.label3 = [[UILabel alloc] init];
@@ -170,13 +161,17 @@
     self.label3.alpha = 0.0;
     [self.view addSubview:self.label3];
     
-    [UIView animateWithDuration:1.0 animations:^{
-        
-        self.loginView.alpha = 0.0;
-        
-        self.label3.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 270.0);
-        self.label3.alpha = 1.0;
-    }];
+//    [UIView animateWithDuration:1.0 animations:^{
+//        
+//        self.loginView.alpha = 0.0;
+//        
+//        self.label3.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 270.0);
+//        self.label3.alpha = 1.0;
+//    }];
+    [self loadUser];
+    
+    
+    
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -194,6 +189,7 @@
             // 9. Store the access token in the user defaults
             
             NSString *accessToken = [[URLString componentsSeparatedByString:@"="] lastObject];
+            NSLog(@"Access token: %@", accessToken); // This will be used to fetch the personal token of the user
             [self userAuthorized];
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             
@@ -206,11 +202,7 @@
             [self dismissViewControllerAnimated:YES completion:nil];
             
         }
-        
-    
-    
     return YES;
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -233,15 +225,15 @@
     NSString *errorString = [error localizedDescription];
     NSString *errorTitle = [NSString stringWithFormat:@"Error (%d)", error.code];
     
+    // In this case, we need the error(-1004) to occur as we need the "code".
     if (error.code != -1004) {
         UIAlertView *errorView =
         [[UIAlertView alloc] initWithTitle:errorTitle
                                    message:errorString delegate:self cancelButtonTitle:nil
                          otherButtonTitles:@"OK", nil];
         [errorView show];
-    } else {
-        
     }
+    // Carry on
 
     
 }
@@ -280,12 +272,14 @@
     // Get user by name route. We create a class route here.
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *baseURL = [NSURL URLWithString:@"https://api.github.com/users"];
+    // **Need to make token a parameter in this method**
+    NSURL *baseURL = [NSURL URLWithString:@"https://api.github.com/user?access_token=3e62aed905e3f4aa85c3211f63108126484e3dbc"];
     NSURLRequest *request = [NSURLRequest requestWithURL:baseURL];
     
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
     [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
+
         // For loop for debuggind reasons
         for(int i = 0; i < [mappingResult count]; i++){
             GHUser *user = mappingResult.array[i];
@@ -299,7 +293,12 @@
         RKLogError(@"Operation failed with error: %@", error);
     }];
     
+    // Main Menu Interface
+    
+    
     [objectRequestOperation start];
 }
+
+
 
 @end
