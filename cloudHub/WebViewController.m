@@ -10,6 +10,7 @@
 #import "GHuser.h"
 #import "WebViewController.h"
 #import "RestKit/Restkit.h"
+//#import "JSON.h"
 
 #define kCLIENTID @"0ddae62c917a6464ad4d"
 #define kCLIENTSECRET @"45ab32f44791a9ca53175bf914a5b3233622c947"
@@ -87,8 +88,8 @@
     //        self.label3.alpha = 1.0;
     //    }];
     // [self loadUser];
-
-
+    
+    
     //[[UIApplication sharedApplication] openURL:websiteUrl];
     
     
@@ -96,17 +97,17 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://github.com/login/oauth/access_token?client_id=%@&client_secret=%@&grant_type=authorization_code&redirect_uri=http://localhost:3000&code=%@", kCLIENTID, kCLIENTSECRET, code]]];
-
-
+    
+    
     /***
-    NSURL *url = [NSURL URLWithString: requestURL];
-    NSString *body = [NSString stringWithFormat: @"access_token=%@&token_type=%@", @"access_token",@"token_type"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
-    [request setHTTPMethod: @"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody: [body dataUsingEncoding: NSUTF8StringEncoding]];
-    [self.loginView loadRequest: request];
+     NSURL *url = [NSURL URLWithString: requestURL];
+     NSString *body = [NSString stringWithFormat: @"access_token=%@&token_type=%@", @"access_token",@"token_type"];
+     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
+     [request setHTTPMethod: @"POST"];
+     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+     [request setHTTPBody: [body dataUsingEncoding: NSUTF8StringEncoding]];
+     [self.loginView loadRequest: request];
      *****/
     
     [self.loginView loadRequest: request];
@@ -116,36 +117,78 @@
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-
+    
     // Get the url and check for the code in the callback url
     
-    NSURL *url = request.URL;
-    if ([url.scheme isEqual:@"http"]) {
-       
-    
-        NSString *URLString = [[request URL] absoluteString];
-    
-        if ([URLString rangeOfString:@"code="].location != NSNotFound) {
+    if ([[[request URL] host] isEqualToString:@"localhost"]) {
         
-            // Store the code in the user defaults
-            NSString *code = [[URLString componentsSeparatedByString:@"="] lastObject];
-            NSLog(@"Code is : %@", code); // This will be used to fetch the personal token of the user
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            
-            [defaults setObject:code forKey:@"code"];
-            
-            [defaults synchronize];
-            
-            [self userDidAuthorize:code];
-            
-        } else if ([URLString rangeOfString:@"access_token="].location != NSNotFound){
-            NSLog(@"WOWW");
+        // Extract oauth_verifier from URL query
+        NSString* verifier = nil;
+        NSArray* urlParams = [[[request URL] query] componentsSeparatedByString:@"&"];
+        for (NSString* param in urlParams) {
+            NSArray* keyValue = [param componentsSeparatedByString:@"="];
+            NSString* key = [keyValue objectAtIndex:0];
+            if ([key isEqualToString:@"code"]) {
+                verifier = [keyValue objectAtIndex:1];
+                
+                NSLog(@"%@",verifier);
+                break;
+            }
         }
-    } else {
-        NSLog(@"https://");
+        
+        if (verifier) {
+            NSString *data = [NSString stringWithFormat:@"code=%@&client_id=%@&client_secret=%@&redirect_uri=http://localhost:3000&grant_type=authorization_code", verifier, kCLIENTID, kCLIENTSECRET, verifier];
+            NSString *url = [NSString stringWithFormat:@"https://github.com/oauth2/access_token"];
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+            [request setHTTPMethod:@"POST"];
+            [request setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
+            NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:request delegate:self];
+            receivedData = [[NSMutableData alloc] init];
+            NSLog(@"%@",receivedData);
+        } else {
+            // ERROR!
+        }
+        
+        [self.loginView removeFromSuperview];
+        
+        return NO;
     }
+    
     return YES;
+    
+    /*
+     NSURL *url = request.URL;
+     if ([url.scheme isEqual:@"http"]) {
+     
+     NSString* verifier = nil;
+     NSString *URLString = [[request URL] absoluteString];
+     
+     if ([URLString rangeOfString:@"code="].location != NSNotFound) {
+     
+     // Store the code in the user defaults
+     NSString *code = [[URLString componentsSeparatedByString:@"="] lastObject];
+     NSLog(@"Code is : %@", code); // This will be used to fetch the personal token of the user
+     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+     
+     [defaults setObject:code forKey:@"code"];
+     
+     [defaults synchronize];
+     
+     //[self userDidAuthorize:code];
+     
+     } else if ([URLString rangeOfString:@"access_token="].location != NSNotFound){
+     NSLog(@"WOWW");
+     }
+     
+     
+     } else {
+     NSLog(@"https://");
+     }
+     */
+    
 }
+
+
 
 
 - (void)webViewDidStartLoad:(UIWebView *)loginView {
@@ -174,13 +217,13 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

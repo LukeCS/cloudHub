@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface WebViewController : UIViewController
+{
+    NSMutableData *receivedData;
+}
 
 @property (nonatomic, retain) UIWebView *loginView;
 @property (nonatomic, retain) UILabel   *label3;
