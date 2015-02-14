@@ -8,7 +8,8 @@
 
 @interface GHUser : NSObject
 
-@property (nonatomic, retain) NSString* login;
+@property (nonatomic, retain) NSString *code;
+/*@property (nonatomic, retain) NSString* login;
 @property (nonatomic, retain) NSString* id;
 @property (nonatomic, retain) NSString* avatar_url;
 @property (nonatomic, strong) NSString *name;
@@ -33,7 +34,7 @@
 @property (nonatomic, retain) NSString* followers;
 @property (nonatomic, retain) NSString* following;
 @property (nonatomic, retain) NSString* created_at;
-@property (nonatomic, retain) NSString* updated_at;
+@property (nonatomic, retain) NSString* updated_at;*/
 
 
 @end

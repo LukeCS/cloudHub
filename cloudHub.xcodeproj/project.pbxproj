@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		054CC2A11A89142D00D8CC0B /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 054CC29F1A89142D00D8CC0B /* WebViewController.m */; };
+		054CC2A21A89142D00D8CC0B /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 054CC2A01A89142D00D8CC0B /* WebViewController.xib */; };
 		057052BE19FBB38800C84DAB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052BD19FBB38800C84DAB /* main.m */; };
 		057052C119FBB38800C84DAB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052C019FBB38800C84DAB /* AppDelegate.m */; };
 		057052C419FBB38800C84DAB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 057052C319FBB38800C84DAB /* ViewController.m */; };
@@ -70,6 +72,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		054CC29E1A89142D00D8CC0B /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		054CC29F1A89142D00D8CC0B /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		054CC2A01A89142D00D8CC0B /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		057052B819FBB38800C84DAB /* cloudHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cloudHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		057052BC19FBB38800C84DAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		057052BD19FBB38800C84DAB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -154,10 +159,13 @@
 			children = (
 				057052BF19FBB38800C84DAB /* AppDelegate.h */,
 				057052C019FBB38800C84DAB /* AppDelegate.m */,
-				057052C219FBB38800C84DAB /* ViewController.h */,
-				057052C319FBB38800C84DAB /* ViewController.m */,
 				0570530119FBB83F00C84DAB /* GHUser.h */,
 				057052FF19FBB76500C84DAB /* GHUser.m */,
+				057052C219FBB38800C84DAB /* ViewController.h */,
+				057052C319FBB38800C84DAB /* ViewController.m */,
+				054CC29E1A89142D00D8CC0B /* WebViewController.h */,
+				054CC29F1A89142D00D8CC0B /* WebViewController.m */,
+				054CC2A01A89142D00D8CC0B /* WebViewController.xib */,
 				057052C519FBB38800C84DAB /* Main.storyboard */,
 				057052C819FBB38800C84DAB /* Images.xcassets */,
 				057052CA19FBB38800C84DAB /* LaunchScreen.xib */,
@@ -325,6 +333,7 @@
 				057052C719FBB38800C84DAB /* Main.storyboard in Resources */,
 				057052CC19FBB38800C84DAB /* LaunchScreen.xib in Resources */,
 				057052C919FBB38800C84DAB /* Images.xcassets in Resources */,
+				054CC2A21A89142D00D8CC0B /* WebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				057052C419FBB38800C84DAB /* ViewController.m in Sources */,
+				054CC2A11A89142D00D8CC0B /* WebViewController.m in Sources */,
 				0570530019FBB76500C84DAB /* GHUser.m in Sources */,
 				057052C119FBB38800C84DAB /* AppDelegate.m in Sources */,
 				057052BE19FBB38800C84DAB /* main.m in Sources */,
