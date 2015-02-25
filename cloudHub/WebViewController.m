@@ -7,25 +7,25 @@
 //
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "GHuser.h"
+#import "GHUser.h"
 #import "WebViewController.h"
 #import "RestKit/Restkit.h"
-//#import "JSON.h"
+#import "JSON.h"
 
 #define kCLIENTID @"0ddae62c917a6464ad4d"
 #define kCLIENTSECRET @"45ab32f44791a9ca53175bf914a5b3233622c947"
+#define kCALLBACK @"https://localhost:3000"
 
 @interface WebViewController () <UIWebViewDelegate>
 
-@property (nonatomic) BOOL codeReceived;
 
 @end
 
 @implementation WebViewController
+@synthesize isLogin;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[self configureRestKit];
     [self buildWebView];
     // Do any additional setup after loading the view from its nib.
 }
@@ -35,26 +35,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)configureRestKit
-{
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://github.com/"]];
-    objectManager.requestSerializationMIMEType = RKMIMETypeJSON;
-    [RKObjectManager setSharedManager:objectManager];
-}
-
--(void)buildWebView
-{
-    self.loginView = [[UIWebView alloc] init];
-    self.loginView.delegate = self;
-    self.loginView.scalesPageToFit = YES;
-    self.loginView.frame = CGRectMake(0, 20, 320, self.view.frame.size.height-20);
-    self.loginView.backgroundColor = [UIColor grayColor];
-    self.loginView.scrollView.scrollEnabled = YES;
-    self.loginView.scrollView.bounces = YES;
+-(void)buildWebView {
     
+    // Initialise web view.
+    self.loginWebView = [[UIWebView alloc] init];
+    self.loginWebView.delegate = self;
+    self.loginWebView.scalesPageToFit = YES;
+    self.loginWebView.frame = CGRectMake(0, 20, 320, self.view.frame.size.height-20);
+    self.loginWebView.backgroundColor = [UIColor grayColor];
+    self.loginWebView.scrollView.scrollEnabled = YES;
+    self.loginWebView.scrollView.bounces = YES;
     
-    //NSString *requestURL = [NSString stringWithFormat:@"https://github.com/login/oauth/authorize?response_type=token&client_id=%@&client_secret=%@", kCLIENTID, kCLIENTSECRET];
-    
+    // Make the GET request.
     NSString *requestURL = [NSString stringWithFormat:@"https://github.com/login/oauth/authorize?response_type=code&client_id=%@&scope=user, user:email, user:follow, public_repo, repo, &redirect_uri=http://localhost:3000/callback", kCLIENTID];
     
     requestURL = [requestURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -63,15 +55,14 @@
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:websiteUrl];
     
     NSLog(@"\n%@", requestURL);
-    //[[UIApplication sharedApplication] openURL:websiteUrl];
-    [self.view addSubview:self.loginView];
-    [self.loginView loadRequest:urlRequest];
     
-    
+    [self.view addSubview:self.loginWebView];
+    [self.loginWebView loadRequest:urlRequest];
 }
 
-- (void)userDidAuthorize:(NSString *)code{
+- (void)userDidAuthorize:(NSString *)code {
     
+    // Initialise label3.
     self.label3 = [[UILabel alloc] init];
     self.label3.frame = CGRectMake(0.0, 20.0, self.view.frame.size.width, 140.0);
     self.label3.font = [UIFont fontWithName:@"Helvetica Neue" size:24.0];
@@ -79,22 +70,8 @@
     self.label3.textAlignment = NSTextAlignmentCenter;
     self.label3.text = @"Authorized accepted";
     [self.view addSubview:self.label3];
-    
-    //    [UIView animateWithDuration:1.0 animations:^{
-    //
-    //        self.loginView.alpha = 0.0;
-    //
-    //        self.label3.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 270.0);
-    //        self.label3.alpha = 1.0;
-    //    }];
-    // [self loadUser];
-    
-    
-    //[[UIApplication sharedApplication] openURL:websiteUrl];
-    
-    
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+
+    //[self dismissViewControllerAnimated:YES completion:nil];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://github.com/login/oauth/access_token?client_id=%@&client_secret=%@&grant_type=authorization_code&redirect_uri=http://localhost:3000&code=%@", kCLIENTID, kCLIENTSECRET, code]]];
     
@@ -107,99 +84,112 @@
      [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
      [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
      [request setHTTPBody: [body dataUsingEncoding: NSUTF8StringEncoding]];
-     [self.loginView loadRequest: request];
+     [self.loginWebView loadRequest: request];
      *****/
     
-    [self.loginView loadRequest: request];
-    
-    
-    
+    [self.loginWebView loadRequest: request];
 }
+
+
+
+// -----------  Connection Methods -------------
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    [receivedData appendData:data];
+    NSLog(@"code %@",receivedData);
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                    message:[NSString stringWithFormat:@"%@", error]
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    //initialize convert the received data to string with UTF8 encoding
+    NSString *htmlSTR = [[NSString alloc] initWithData:receivedData
+                                              encoding:NSUTF8StringEncoding];
+     NSLog(@"ERERE%@" , htmlSTR);
+    
+    
+    NSError *e = nil;
+    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:receivedData options: NSJSONReadingMutableContainers error: &e];  //I am using sbjson to parse
+    
+    NSLog(@"data %@",jsonArray);  //here is your output
+    
+    //show controller with navigation
+}
+// -----------  Connection Methods End ---------
+
+// -----------  WebView Delegate Methods  -------------
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
-    // Get the url and check for the code in the callback url
+    
+    
+    // Get the URL and check for the code in the callback url.
     
     if ([[[request URL] host] isEqualToString:@"localhost"]) {
         
-        // Extract oauth_verifier from URL query
-        NSString* verifier = nil;
+        // Extract code parameter from URL query
+        NSString* code = nil;
         NSArray* urlParams = [[[request URL] query] componentsSeparatedByString:@"&"];
         for (NSString* param in urlParams) {
             NSArray* keyValue = [param componentsSeparatedByString:@"="];
             NSString* key = [keyValue objectAtIndex:0];
             if ([key isEqualToString:@"code"]) {
-                verifier = [keyValue objectAtIndex:1];
+                code = [keyValue objectAtIndex:1];
                 
-                NSLog(@"%@",verifier);
+                NSLog(@"%@",code);
                 break;
             }
         }
         
-        if (verifier) {
-            NSString *data = [NSString stringWithFormat:@"code=%@&client_id=%@&client_secret=%@&redirect_uri=http://localhost:3000&grant_type=authorization_code", verifier, kCLIENTID, kCLIENTSECRET, verifier];
-            NSString *url = [NSString stringWithFormat:@"https://github.com/oauth2/access_token"];
-            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+        // If code exists.
+        if (code) {
+            
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://github.com/login/oauth/access_token"]];
+            
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+            [request setHTTPBody:[[NSString stringWithFormat:@"client_id=%@&client_secret=%@&grant_type=authorization_code&redirect_uri=http://localhost:3000&code=%@", kCLIENTID, kCLIENTSECRET, code] dataUsingEncoding:NSUTF8StringEncoding]];
             [request setHTTPMethod:@"POST"];
-            [request setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
-            NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:request delegate:self];
-            receivedData = [[NSMutableData alloc] init];
-            NSLog(@"%@",receivedData);
+            NSError *error = nil; NSURLResponse *response = nil;
+            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            if (error) {
+                NSLog(@"Error:%@", error.localizedDescription);
+            }
+            else { // Success
+                
+                NSString *htmlSTR = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                NSLog(@"Access_token=%@" , htmlSTR);
+                
+                //[self loadUser];
+            }
         } else {
             // ERROR!
         }
         
-        [self.loginView removeFromSuperview];
+        [self.loginWebView removeFromSuperview];
         
         return NO;
     }
     
     return YES;
-    
-    /*
-     NSURL *url = request.URL;
-     if ([url.scheme isEqual:@"http"]) {
-     
-     NSString* verifier = nil;
-     NSString *URLString = [[request URL] absoluteString];
-     
-     if ([URLString rangeOfString:@"code="].location != NSNotFound) {
-     
-     // Store the code in the user defaults
-     NSString *code = [[URLString componentsSeparatedByString:@"="] lastObject];
-     NSLog(@"Code is : %@", code); // This will be used to fetch the personal token of the user
-     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-     
-     [defaults setObject:code forKey:@"code"];
-     
-     [defaults synchronize];
-     
-     //[self userDidAuthorize:code];
-     
-     } else if ([URLString rangeOfString:@"access_token="].location != NSNotFound){
-     NSLog(@"WOWW");
-     }
-     
-     
-     } else {
-     NSLog(@"https://");
-     }
-     */
-    
 }
 
-
-
-
-- (void)webViewDidStartLoad:(UIWebView *)loginView {
+- (void)webViewDidStartLoad:(UIWebView *)loginWebView {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)loginView {
+- (void)webViewDidFinishLoad:(UIWebView *)loginWebView {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
-- (void)webView:(UIWebView *)loginView didFailLoadWithError:(NSError *)error {
+- (void)webView:(UIWebView *)loginWebView didFailLoadWithError:(NSError *)error {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     NSString *errorString = [error localizedDescription];
@@ -215,6 +205,7 @@
     }// Carry on
 }
 
+// -----------  WebView Delegate Methods End  ---------
 
 /*
  #pragma mark - Navigation

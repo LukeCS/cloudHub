@@ -7,13 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OAuthConsumer.h"
+#import "AppDelegate.h"
+#import "SBJsonParser.h"
+
 
 @interface WebViewController : UIViewController
 {
+    OAConsumer* consumer;
+    OAToken* requestToken;
+    OAToken* accessToken;
     NSMutableData *receivedData;
 }
 
-@property (nonatomic, retain) UIWebView *loginView;
+@property (nonatomic, retain) UIWebView *loginWebView;
 @property (nonatomic, retain) UILabel   *label3;
+@property (nonatomic, retain) NSString *isLogin;
 @end
 
