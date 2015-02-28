@@ -6,10 +6,40 @@
 //  Copyright (c) 2014 Luke Kartsolis. All rights reserved.
 //
 
-@interface GHUser : NSObject
+@interface GHUser : NSObject {
+    NSString* login;
+    NSNumber* id;
+    NSString* avatar_url;
+    NSString* gravatar_id;
+    NSString* url;
+    NSString* html_url;
+    NSString* followers_url;
+    NSString* following_url;
+    NSString* gists_url;
+    NSString* starred_url;
+    NSString* subscriptions_url;
+    NSString* organizations_url;
+    NSString* repos_url;
+    NSString* events_url;
+    NSString* received_events_url;
+    NSString* type;
+    NSString* site_admin;
+    NSString* public_repos;
+    NSString* public_gists;
+    NSString* followers;
+    NSString* following;
+    NSString* created_at;
+    NSString* updated_at;
+    NSString* private_gists;
+    NSString* total_private_repos;
+    NSString* owned_private_repos;
+    NSString* disk_usage;
+    NSString* collaborators;
+    NSString* plan;
+}
 
 @property (nonatomic, retain) NSString* login;
-@property (nonatomic, retain) NSString* id;
+@property (nonatomic, retain) NSNumber* id;
 @property (nonatomic, retain) NSString* avatar_url;
 @property (nonatomic, retain) NSString* gravatar_id;
 @property (nonatomic, retain) NSString* url;
@@ -31,5 +61,11 @@
 @property (nonatomic, retain) NSString* following;
 @property (nonatomic, retain) NSString* created_at;
 @property (nonatomic, retain) NSString* updated_at;
+@property (nonatomic, retain) NSString* private_gists;
+@property (nonatomic, retain) NSString* total_private_repos;
+@property (nonatomic, retain) NSString* owned_private_repos;
+@property (nonatomic, retain) NSString* disk_usage;
+@property (nonatomic, retain) NSString* collaborators;
+@property (nonatomic, retain) NSString* plan;
 
 @end

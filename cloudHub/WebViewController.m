@@ -74,25 +74,14 @@
     //[self dismissViewControllerAnimated:YES completion:nil];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://github.com/login/oauth/access_token?client_id=%@&client_secret=%@&grant_type=authorization_code&redirect_uri=http://localhost:3000&code=%@", kCLIENTID, kCLIENTSECRET, code]]];
-    
-    
-    /***
-     NSURL *url = [NSURL URLWithString: requestURL];
-     NSString *body = [NSString stringWithFormat: @"access_token=%@&token_type=%@", @"access_token",@"token_type"];
-     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
-     [request setHTTPMethod: @"POST"];
-     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-     [request setHTTPBody: [body dataUsingEncoding: NSUTF8StringEncoding]];
-     [self.loginWebView loadRequest: request];
-     *****/
-    
+
     [self.loginWebView loadRequest: request];
 }
 
 
 
 // -----------  Connection Methods -------------
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [receivedData appendData:data];
     NSLog(@"code %@",receivedData);
@@ -107,21 +96,8 @@
     [alert show];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    //initialize convert the received data to string with UTF8 encoding
-    NSString *htmlSTR = [[NSString alloc] initWithData:receivedData
-                                              encoding:NSUTF8StringEncoding];
-     NSLog(@"ERERE%@" , htmlSTR);
-    
-    
-    NSError *e = nil;
-    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:receivedData options: NSJSONReadingMutableContainers error: &e];  //I am using sbjson to parse
-    
-    NSLog(@"data %@",jsonArray);  //here is your output
-    
-    //show controller with navigation
-}
 // -----------  Connection Methods End ---------
+
 
 // -----------  WebView Delegate Methods  -------------
 
@@ -151,8 +127,9 @@
         if (code) {
             
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://github.com/login/oauth/access_token"]];
-            
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            
+            // Make POST method request.
             [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
             [request setHTTPBody:[[NSString stringWithFormat:@"client_id=%@&client_secret=%@&grant_type=authorization_code&redirect_uri=http://localhost:3000&code=%@", kCLIENTID, kCLIENTSECRET, code] dataUsingEncoding:NSUTF8StringEncoding]];
             [request setHTTPMethod:@"POST"];
@@ -163,11 +140,25 @@
                 NSLog(@"Error:%@", error.localizedDescription);
             }
             else { // Success
-                
                 NSString *htmlSTR = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                NSLog(@"Access_token=%@" , htmlSTR);
-                
-                //[self loadUser];
+                NSString* access_token = nil;
+                NSArray* urlParams = [htmlSTR componentsSeparatedByString:@"&"];
+                for (NSString* param in urlParams) {
+                    NSArray* keyValue = [param componentsSeparatedByString:@"="];
+                    NSString* key = [keyValue objectAtIndex:0];
+                    if ([key isEqualToString:@"access_token"]) {
+                        access_token = [keyValue objectAtIndex:1];
+                        
+                        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                        
+                        [defaults setObject:access_token forKey:@"access_token"];
+                        [defaults synchronize];
+                        
+                        NSLog(@"%@",access_token);
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                        break;
+                    }
+                }
             }
         } else {
             // ERROR!
@@ -196,7 +187,7 @@
     NSString *errorTitle = [NSString stringWithFormat:@"Error (%d)", error.code];
     
     // In this case, we need the error(-1004) to occur as we need the "code".
-    if (error.code != -1004) {
+    if (error.code != -1004 && error.code != 102) {
         UIAlertView *errorView =
         [[UIAlertView alloc] initWithTitle:errorTitle
                                    message:errorString delegate:self cancelButtonTitle:nil

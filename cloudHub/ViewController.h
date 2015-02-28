@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class GHUser;
 @interface ViewController : UIViewController {
     
 }
@@ -15,6 +15,7 @@
 - (IBAction)Signin;
 
 @property (nonatomic, retain) UIButton  *loginButton;
+//@property (nonatomic, retain) NSString *accessToken;
 
 @end
 
