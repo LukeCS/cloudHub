@@ -8,15 +8,22 @@
 
 #import "ViewController.h"
 #import "WebViewController.h"
+#import "TableViewController.h"
 #import "GHUser.h"
 #import "RestKit/Restkit.h"
+
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
+
+
+
+@end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.loginButton setTitle:@"Sign in with Git" forState:UIControlStateNormal];
     self.loginButton.frame = CGRectMake(0, 20, 320, 40);
@@ -45,49 +52,14 @@
 }
 
 - (IBAction)buildTableView {
+    TableViewController *tableView = [[TableViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:tableView animated:YES completion:NULL];
     [self.loginButton removeFromSuperview];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *accessToken = [defaults objectForKey:@"access_token"];
-    
-    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHUser class]];
-    [userMapping addAttributeMappingsFromArray:@[@"login",
-                                                      @"id",
-                                                      @"avatar_url",
-                                                      @"gravatar_id",
-                                                      @"url",
-                                                      @"html_url",
-                                                      @"followers_url",
-                                                      @"following_url"
-                                                      ]];
-    
-    
-    // register mappings with the provider using a response descriptor
-    // Get user by name route. We create a class route here.
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.github.com/user?access_token=%@", accessToken]]];
-    
-    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
-    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        
-        // For loop for debuggind reasons
-        for(int i = 0; i < [mappingResult count]; i++){
-            GHUser *user = mappingResult.array[i];
-            //if ([user.login isEqualToString:@"LukeCS"]) {
-            NSLog(@"User name, %@", user.login);
-            NSLog(@"User id, %@", user.id);
-            //}
-        }
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        RKLogError(@"Operation failed with error: %@", error);
-    }];
-    
-    // Main Menu Interface
-    
-    [objectRequestOperation start];
 }
+
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
