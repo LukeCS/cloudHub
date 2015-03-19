@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "GHUser.h"
 
-@implementation GHUser
+@implementation GHUser : NSObject
 
 @end

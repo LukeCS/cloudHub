@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface FollowersTableViewController : UITableViewController {
-    NSMutableArray *array;
+    NSMutableArray *results;
 }
 
 @property (nonatomic, retain) NSString* followersUrl;

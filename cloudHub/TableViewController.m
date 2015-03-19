@@ -7,11 +7,15 @@
 //
 
 #import "TableViewController.h"
+#import "FollowingTableViewController.h"
 #import "FollowersTableViewController.h"
+#import "EventsTableViewController.h"
+#import "RepositoriesTableViewController.h"
 #import "ViewController.h"
 #import "WebViewController.h"
 #import "GHUser.h"
 #import "RestKit/Restkit.h"
+#import "GHEvents.h"
 
 @interface TableViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -21,7 +25,6 @@
 @implementation TableViewController
 
 GHUser *user;
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -74,8 +77,7 @@ GHUser *user;
                                                  ]];
     
     
-    // register mappings with the provider using a response descriptor
-    // Get user by name route. We create a class route here.
+    // Register mappings with the provider using a response descriptor
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     
@@ -85,16 +87,19 @@ GHUser *user;
     [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
         
-        
         // For loop for debuggind reasons
         for(int i = 0; i < [mappingResult count]; i++){
             user = mappingResult.array[i];
-            array = [[NSMutableArray alloc] initWithObjects:user.login, @"Events", @"Organizations", @"Followers", @"Following", @"Repositories", @"Gists", nil];
-            NSLog(@"User name, %@", user.login);
-            NSLog(@"User id, %@", user.id);
-            NSLog(@"User repos url, %@", user.repos_url);
-            //}
+            results = [[NSMutableArray alloc] initWithObjects: @"Events", @"Organizations", @"Followers", @"Following", @"Repositories", @"Gists", nil];
+            
             [self.tableView reloadData];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            NSLog(@"%@", user.following_url);
+            [userDefaults setObject:user.followers_url forKey:@"followers_url"];
+            [userDefaults setObject:user.following_url forKey:@"following_url"];
+            [userDefaults setObject:user.events_url forKey:@"events_url"];
+            [userDefaults setObject:user.repos_url forKey:@"repos_url"];
+            [userDefaults synchronize];
         }
         
         [self buildTableView];
@@ -103,14 +108,12 @@ GHUser *user;
     }];
     // Main Menu Interface
     [objectRequestOperation start];
-    
 }
 
 - (void)buildTableView {
     
     // set the title
-    self.title = @"User Options";
-    NSLog(@"Login in table view: %@", array[0]);
+    self.title = @"Profile";
     
     // construct first name cell, section 0, row 0
     self.firstNameCell = [[UITableViewCell alloc] init];
@@ -124,10 +127,7 @@ GHUser *user;
     
     // construct share cell, section 1, row 00
     self.shareCell = [[UITableViewCell alloc]init];
-
-    
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -145,19 +145,17 @@ GHUser *user;
     // Return the number of rows in the section.
     switch(section)
     {
-        case 0:  return 7;  // section 0 has 1 row
-        //case 1:  return 1;  // section 1 has 1 row
+        case 0:  return 6;  // section 0 has 1 row
         default: return 0;
     };
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier =@"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    cell.textLabel.text=[NSString stringWithFormat:@"%@", [array objectAtIndex:indexPath.row]];
+    cell.textLabel.text=[NSString stringWithFormat:@"%@", [results objectAtIndex:indexPath.row]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
@@ -167,8 +165,7 @@ GHUser *user;
 {
     switch(section)
     {
-        case 0: return @"Profile";
-        //case 1: return @"Other";
+        case 0: return user.login;
     }
     return nil;
 }
@@ -216,17 +213,48 @@ GHUser *user;
     // Navigation logic may go here, for example:
     // Create the next view controller.
     
-    if (indexPath.row == 3) {
-        
-    
-        FollowersTableViewController *followersTableViewController = [[FollowersTableViewController alloc] initWithNibName:nil bundle:nil];
+    // Events Cell
+    if (indexPath.row == 0) {
+        EventsTableViewController *eventsTableView = [[EventsTableViewController alloc] initWithNibName:nil bundle:nil];
     
         // Pass the selected object to the new view controller.
     
         // Push the view controller.
-        followersTableViewController.followersUrl = user.followers_url;
-
-        [self presentViewController:followersTableViewController animated:YES completion:NULL];
+    
+        UINavigationController* theNavController = [[UINavigationController alloc] initWithRootViewController:eventsTableView];
+        [self presentViewController:theNavController animated:YES completion:NULL];
+    // Followers Cell
+    } else if (indexPath.row == 2) {
+        
+        FollowersTableViewController *followersTableView = [[FollowersTableViewController alloc] initWithNibName:nil bundle:nil];
+    
+        // Pass the selected object to the new view controller.
+    
+        // Push the view controller.
+        followersTableView.followersUrl = user.followers_url;
+        
+        UINavigationController* theNavController = [[UINavigationController alloc] initWithRootViewController:followersTableView];
+        [self presentViewController:theNavController animated:YES completion:NULL];
+    // Following Cell
+    } else if (indexPath.row == 3) {
+        FollowingTableViewController *followingTableView = [[FollowingTableViewController alloc] initWithNibName:nil bundle:nil];
+        
+        // Pass the selected object to the new view controller.
+        
+        // Push the view controller.
+        
+        UINavigationController* theNavController = [[UINavigationController alloc] initWithRootViewController:followingTableView];
+        [self presentViewController:theNavController animated:YES completion:NULL];
+    // Repositories Cell
+    } else if (indexPath.row == 4) {
+        RepositoriesTableViewController *repositoriesTableView = [[RepositoriesTableViewController alloc] initWithNibName:nil bundle:nil];
+        
+        // Pass the selected object to the new view controller.
+        
+        // Push the view controller.
+        
+        UINavigationController* theNavController = [[UINavigationController alloc] initWithRootViewController:repositoriesTableView];
+        [self presentViewController:theNavController animated:YES completion:NULL];    
     }
 }
 

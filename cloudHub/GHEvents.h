@@ -1,29 +1,48 @@
 //
-//  TableViewController.h
+//  GHEvents.h
 //  cloudHub
 //
-//  Created by Luke Kartsolis on 03/03/2015.
+//  Created by Luke Kartsolis on 09/03/2015.
 //  Copyright (c) 2015 Luke Kartsolis. All rights reserved.
 //
+#import "GHRepo.h"
 
-#import <UIKit/UIKit.h>
-
-@interface TableViewController : UITableViewController {
-    NSMutableArray *results;
+@interface GHEvents : NSObject {
+    NSNumber* id;
+    NSString* type;
+    NSString* url;
+    NSString* repo;
+    NSString* gravatar_id;
+    NSString* html_url;
+    NSString* followers_url;
+    NSString* following_url;
+    NSString* gists_url;
+    NSString* starred_url;
+    NSString* subscriptions_url;
+    NSString* organizations_url;
+    NSString* repos_url;
+    NSString* events_url;
+    NSString* received_events_url;
+    NSString* site_admin;
+    NSString* public_repos;
+    NSString* public_gists;
+    NSString* followers;
+    NSString* following;
+    NSString* created_at;
+    NSString* updated_at;
+    NSString* private_gists;
+    NSString* total_private_repos;
+    NSString* owned_private_repos;
+    NSString* disk_usage;
+    NSString* collaborators;
+    NSString* plan;
 }
 
-@property (nonatomic, retain) UITableView *tableView;
 
-@property (strong, nonatomic) UITableViewCell *firstNameCell;
-@property (strong, nonatomic) UITableViewCell *lastNameCell;
-@property (strong, nonatomic) UITableViewCell *shareCell;
-
-@property (strong, nonatomic) UITextField *firstNameText;
-@property (strong, nonatomic) UITextField *lastNameText;
-
-@property (nonatomic, retain) NSString* login;
 @property (nonatomic, retain) NSNumber* id;
-@property (nonatomic, retain) NSString* avatar_url;
+@property (nonatomic, retain) NSString* name;
+@property (nonatomic, retain) NSString* type;
+@property (nonatomic, retain) NSString* repo;
 @property (nonatomic, retain) NSString* gravatar_id;
 @property (nonatomic, retain) NSString* url;
 @property (nonatomic, retain) NSString* html_url;
@@ -36,7 +55,6 @@
 @property (nonatomic, retain) NSString* repos_url;
 @property (nonatomic, retain) NSString* events_url;
 @property (nonatomic, retain) NSString* received_events_url;
-@property (nonatomic, retain) NSString* type;
 @property (nonatomic, retain) NSString* site_admin;
 @property (nonatomic, retain) NSString* public_repos;
 @property (nonatomic, retain) NSString* public_gists;

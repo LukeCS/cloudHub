@@ -45,21 +45,16 @@
     self.loginButton.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 + 50);
     self.loginButton.backgroundColor = [UIColor lightGrayColor];
     
-   
-
     [self.loginButton addTarget:self action:@selector(buildTableView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.loginButton];
 }
 
 - (IBAction)buildTableView {
     TableViewController *tableView = [[TableViewController alloc] initWithNibName:nil bundle:nil];
-    [self presentViewController:tableView animated:YES completion:NULL];
+    UINavigationController*  theNavController = [[UINavigationController alloc] initWithRootViewController:tableView];
+    [self presentViewController:theNavController animated:YES completion:NULL];
     [self.loginButton removeFromSuperview];
 }
-
-
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

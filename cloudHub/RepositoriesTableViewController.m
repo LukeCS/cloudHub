@@ -1,31 +1,32 @@
 //
-//  FollowersTableViewController.m
+//  RepositoriesTableViewController.m
 //  cloudHub
 //
-//  Created by Luke Kartsolis on 06/03/2015.
+//  Created by Luke Kartsolis on 12/03/2015.
 //  Copyright (c) 2015 Luke Kartsolis. All rights reserved.
 //
 
+#import "RepositoriesTableViewController.h"
 #import "FollowersTableViewController.h"
 #import "TableViewController.h"
 #import "ViewController.h"
 #import "WebViewController.h"
 #import "GHUser.h"
 #import "RestKit/Restkit.h"
+#import "GHRepo.h"
+#import "FilesTableViewController.h"
 
-@interface FollowersTableViewController () <UITableViewDelegate, UITableViewDataSource> {
-    
-}
+@interface RepositoriesTableViewController ()
 
 @end
 
-@implementation FollowersTableViewController
+@implementation RepositoriesTableViewController
 
-GHUser *user;
+GHRepo *repo;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Followers";
+    self.title = @"Repositories";
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
     self.navigationItem.leftBarButtonItem = backButton;
@@ -41,7 +42,7 @@ GHUser *user;
 - (void)backButtonPressed
 {
     // write your code to prepare popview
-   [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)loadView
@@ -49,9 +50,10 @@ GHUser *user;
     [super loadView];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[TableViewController class]];
-    [userMapping addAttributeMappingsFromArray:@[@"login",
-                                                 
+    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHRepo class]];
+    [userMapping addAttributeMappingsFromArray:@[@"id",
+                                                 @"name",
+                                                 @"contents_url"
                                                  /*
                                                   NSString* private_gists;
                                                   NSString* total_private_repos;
@@ -65,24 +67,36 @@ GHUser *user;
     // register mappings with the provider using a response descriptor
     // Get user by name route. We create a class route here.
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+   
+    // Remove the optional parameter
+    NSArray* urlParams = [[defaults objectForKey:@"repos_url"] componentsSeparatedByString:@"{"];
+    NSString* url = [urlParams objectAtIndex:0];
+    NSLog(@"URL = %@", url);
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[defaults objectForKey:@"followers_url"]]];
+    NSURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+
     
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
     [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
+
         results = [[NSMutableArray alloc] initWithObjects: nil];
         
         // Add mapping result to array.
         for(int i = 0; i < [mappingResult count]; i++){
-            user = mappingResult.array[i];
-            [results addObject:user.login];
+            repo = mappingResult.array[i];
+            [results addObject:repo.name];
+            
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:repo.contents_url forKey:@"contents_url"];
+            
         }
-        [self.tableView reloadData];    
+        [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         RKLogError(@"Operation failed with error: %@", error);
     }];
-    [objectRequestOperation start];    
+    
+    [objectRequestOperation start];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,14 +116,17 @@ GHUser *user;
     return results.count;
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier =@"Cell";
-    
+ 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
+ 
     cell.textLabel.text=[NSString stringWithFormat:@"%@", [results objectAtIndex:indexPath.row]];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -144,6 +161,25 @@ GHUser *user;
     return YES;
 }
 */
+
+
+#pragma mark - Table view delegate
+
+// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Navigation logic may go here, for example:
+    // Create the next view controller.
+    
+    
+    FilesTableViewController *filesViewController = [[FilesTableViewController alloc] initWithNibName:nil bundle:nil];
+    
+    // Pass the selected object to the new view controller.
+    
+    // Push the view controller.
+    [self.navigationController pushViewController:filesViewController animated:YES];
+    
+}
+
 
 /*
 #pragma mark - Navigation
