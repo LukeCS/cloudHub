@@ -10,6 +10,7 @@
 
 @interface FilesTableViewController : UITableViewController {
     NSMutableArray *results;
+    NSMutableArray *type;
 }
 
 @end

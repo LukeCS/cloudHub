@@ -12,6 +12,9 @@
 #import "GHUser.h"
 #import "RestKit/Restkit.h"
 #import "GHRepo.h"
+#import "GHFile.h"
+#import "GHContent.h"
+#import "ContentViewController.h"
 
 @interface FilesTableViewController ()
 
@@ -19,7 +22,9 @@
 
 @implementation FilesTableViewController
 
-GHRepo *repo;
+GHFile *files;
+NSString *fileType;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,6 +35,7 @@ GHRepo *repo;
     // Back button.
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
     self.navigationItem.leftBarButtonItem = backButton;
+    
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
@@ -43,18 +49,17 @@ GHRepo *repo;
 - (void)loadView
 {
     [super loadView];
+    
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHRepo class]];
+    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHFile class]];
     [userMapping addAttributeMappingsFromArray:@[@"name",
-                                                 
-                                                 /*
-                                                  NSString* private_gists;
-                                                  NSString* total_private_repos;
-                                                  NSString* owned_private_repos;
-                                                  NSString* disk_usage;
-                                                  NSString* collaborators;
-                                                  NSString* plan;*/
+                                                 @"path",
+                                                 @"sha",
+                                                 @"size",
+                                                 @"url",
+                                                 @"type"
                                                  ]];
     
     
@@ -64,7 +69,7 @@ GHRepo *repo;
     
     // Remove the optional parameter
     NSArray* urlParams = [[defaults objectForKey:@"contents_url"] componentsSeparatedByString:@"{"];
-    NSString* url = @"https://api.github.com/repos/LukeCS/cloudHub/contents/";
+    NSString* url = @"https://api.github.com/repos/LukeCS/cloudHub/contents";
     NSLog(@"URL = %@", url);
     
     NSURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -76,9 +81,11 @@ GHRepo *repo;
         
         // Add mapping result to array.
         for(int i = 0; i < [mappingResult count]; i++){
-            repo = mappingResult.array[i];
-            [results addObject:repo.name];
+            files = mappingResult.array[i];
+            [results addObject:files.name];
+            [type addObject:files.type];
         }
+        
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         RKLogError(@"Operation failed with error: %@", error);
@@ -94,13 +101,11 @@ GHRepo *repo;
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return results.count;
 }
@@ -112,6 +117,7 @@ GHRepo *repo;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     cell.textLabel.text=[NSString stringWithFormat:@"%@", [results objectAtIndex:indexPath.row]];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
@@ -150,21 +156,24 @@ GHRepo *repo;
 }
 */
 
-/*
+
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here, for example:
     // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:<#@"Nib name"#> bundle:nil];
+    if (indexPath.row == 1) {
+        ContentViewController *contentController = [[ContentViewController alloc] initWithNibName:nil bundle:nil];
+        
+        // Pass the selected object to the new view controller.
+        
+        // Push the view controller.
+        [self.navigationController pushViewController:contentController animated:YES];
+    }
     
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
 }
-*/
+
 
 /*
 #pragma mark - Navigation

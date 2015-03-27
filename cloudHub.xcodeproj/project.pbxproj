@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		050125A61AB1F87700D4AB8E /* RepositoriesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 050125A41AB1F87700D4AB8E /* RepositoriesTableViewController.m */; };
 		050125A71AB1F87700D4AB8E /* RepositoriesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 050125A51AB1F87700D4AB8E /* RepositoriesTableViewController.xib */; };
+		050D665E1ABF297700A16197 /* GHFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 050D665D1ABF297700A16197 /* GHFile.m */; };
 		0514FCC21ABB556A00FFF812 /* FilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0514FCC01ABB556A00FFF812 /* FilesTableViewController.m */; };
 		0514FCC31ABB556A00FFF812 /* FilesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0514FCC11ABB556A00FFF812 /* FilesTableViewController.xib */; };
 		052EBA951AAC8EE500A73198 /* FollowingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 052EBA931AAC8EE500A73198 /* FollowingTableViewController.m */; };
@@ -65,6 +66,9 @@
 		059208B61AAE1D12004E771E /* GHEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 059208B51AAE1D12004E771E /* GHEvents.m */; };
 		059208BB1AAE2440004E771E /* GHRepo.m in Sources */ = {isa = PBXBuildFile; fileRef = 059208BA1AAE2440004E771E /* GHRepo.m */; };
 		0597642719FC0010002C2C76 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 057052E919FBB4D300C84DAB /* libRestKit.a */; };
+		05B2F91E1AC03EDE0083BF18 /* ContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B2F91C1AC03EDE0083BF18 /* ContentViewController.m */; };
+		05B2F91F1AC03EDE0083BF18 /* ContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05B2F91D1AC03EDE0083BF18 /* ContentViewController.xib */; };
+		05B2F9241AC0415F0083BF18 /* GHContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B2F9231AC0415F0083BF18 /* GHContent.m */; };
 		05BC97161AAB1BCA00C98BB3 /* ProfileNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BC97141AAB1BCA00C98BB3 /* ProfileNavigationViewController.m */; };
 		05BC97171AAB1BCA00C98BB3 /* ProfileNavigationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05BC97151AAB1BCA00C98BB3 /* ProfileNavigationViewController.xib */; };
 		05D96F211AA9D63600B54F0E /* FollowersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D96F201AA9D63600B54F0E /* FollowersTableViewController.m */; };
@@ -119,6 +123,8 @@
 		050125A31AB1F87700D4AB8E /* RepositoriesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoriesTableViewController.h; sourceTree = "<group>"; };
 		050125A41AB1F87700D4AB8E /* RepositoriesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoriesTableViewController.m; sourceTree = "<group>"; };
 		050125A51AB1F87700D4AB8E /* RepositoriesTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepositoriesTableViewController.xib; sourceTree = "<group>"; };
+		050D665C1ABF295F00A16197 /* GHFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GHFile.h; sourceTree = "<group>"; };
+		050D665D1ABF297700A16197 /* GHFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHFile.m; sourceTree = "<group>"; };
 		0514FCBF1ABB556A00FFF812 /* FilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesTableViewController.h; sourceTree = "<group>"; };
 		0514FCC01ABB556A00FFF812 /* FilesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesTableViewController.m; sourceTree = "<group>"; };
 		0514FCC11ABB556A00FFF812 /* FilesTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilesTableViewController.xib; sourceTree = "<group>"; };
@@ -215,6 +221,11 @@
 		059208BA1AAE2440004E771E /* GHRepo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHRepo.m; sourceTree = "<group>"; };
 		0597642819FC004D002C2C76 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0597642A19FC0063002C2C76 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		05B2F91B1AC03EDE0083BF18 /* ContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentViewController.h; sourceTree = "<group>"; };
+		05B2F91C1AC03EDE0083BF18 /* ContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentViewController.m; sourceTree = "<group>"; };
+		05B2F91D1AC03EDE0083BF18 /* ContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentViewController.xib; sourceTree = "<group>"; };
+		05B2F9231AC0415F0083BF18 /* GHContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHContent.m; sourceTree = "<group>"; };
+		05B2F9251AC0419A0083BF18 /* GHContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GHContent.h; sourceTree = "<group>"; };
 		05BC97131AAB1BCA00C98BB3 /* ProfileNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileNavigationViewController.h; sourceTree = "<group>"; };
 		05BC97141AAB1BCA00C98BB3 /* ProfileNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileNavigationViewController.m; sourceTree = "<group>"; };
 		05BC97151AAB1BCA00C98BB3 /* ProfileNavigationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileNavigationViewController.xib; sourceTree = "<group>"; };
@@ -372,18 +383,24 @@
 				059208B51AAE1D12004E771E /* GHEvents.m */,
 				059208B91AAE1EF0004E771E /* GHRepo.h */,
 				059208BA1AAE2440004E771E /* GHRepo.m */,
+				050D665C1ABF295F00A16197 /* GHFile.h */,
+				050D665D1ABF297700A16197 /* GHFile.m */,
+				05B2F9251AC0419A0083BF18 /* GHContent.h */,
+				05B2F9231AC0415F0083BF18 /* GHContent.m */,
 				057052C219FBB38800C84DAB /* ViewController.h */,
 				057052C319FBB38800C84DAB /* ViewController.m */,
 				057FC67E1AA5E88100AB1878 /* TableViewController.h */,
 				057FC67F1AA5E88100AB1878 /* TableViewController.m */,
 				050125A31AB1F87700D4AB8E /* RepositoriesTableViewController.h */,
 				050125A41AB1F87700D4AB8E /* RepositoriesTableViewController.m */,
+				0514FCBF1ABB556A00FFF812 /* FilesTableViewController.h */,
+				0514FCC01ABB556A00FFF812 /* FilesTableViewController.m */,
+				05B2F91B1AC03EDE0083BF18 /* ContentViewController.h */,
+				05B2F91C1AC03EDE0083BF18 /* ContentViewController.m */,
 				05D96F1F1AA9D63600B54F0E /* FollowersTableViewController.h */,
 				05D96F201AA9D63600B54F0E /* FollowersTableViewController.m */,
 				052EBA921AAC8EE500A73198 /* FollowingTableViewController.h */,
 				052EBA931AAC8EE500A73198 /* FollowingTableViewController.m */,
-				0514FCBF1ABB556A00FFF812 /* FilesTableViewController.h */,
-				0514FCC01ABB556A00FFF812 /* FilesTableViewController.m */,
 				059208AA1AAE1305004E771E /* EventsTableViewController.h */,
 				059208AB1AAE1305004E771E /* EventsTableViewController.m */,
 				05BC97131AAB1BCA00C98BB3 /* ProfileNavigationViewController.h */,
@@ -437,6 +454,7 @@
 		05BC97201AAB255900C98BB3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				05B2F91D1AC03EDE0083BF18 /* ContentViewController.xib */,
 				0514FCC11ABB556A00FFF812 /* FilesTableViewController.xib */,
 				050125A51AB1F87700D4AB8E /* RepositoriesTableViewController.xib */,
 				059208AC1AAE1305004E771E /* EventsTableViewController.xib */,
@@ -570,6 +588,7 @@
 			files = (
 				05409C0C1A910E5900BDD34E /* README in Resources */,
 				057052C719FBB38800C84DAB /* Main.storyboard in Resources */,
+				05B2F91F1AC03EDE0083BF18 /* ContentViewController.xib in Resources */,
 				057052CC19FBB38800C84DAB /* LaunchScreen.xib in Resources */,
 				0514FCC31ABB556A00FFF812 /* FilesTableViewController.xib in Resources */,
 				057052C919FBB38800C84DAB /* Images.xcassets in Resources */,
@@ -613,6 +632,7 @@
 				05409BED1A910D0B00BDD34E /* OAPlaintextSignatureProvider.m in Sources */,
 				05409C071A910E5900BDD34E /* NSString+URLEncoding.m in Sources */,
 				054CC2A11A89142D00D8CC0B /* WebViewController.m in Sources */,
+				05B2F9241AC0415F0083BF18 /* GHContent.m in Sources */,
 				05409C061A910E5900BDD34E /* NSMutableURLRequest+Parameters.m in Sources */,
 				0514FCC21ABB556A00FFF812 /* FilesTableViewController.m in Sources */,
 				05409BEC1A910D0B00BDD34E /* OAMutableURLRequest.m in Sources */,
@@ -633,10 +653,12 @@
 				05D96F211AA9D63600B54F0E /* FollowersTableViewController.m in Sources */,
 				052EBA951AAC8EE500A73198 /* FollowingTableViewController.m in Sources */,
 				05409BC81A910B8E00BDD34E /* SBJsonParser.m in Sources */,
+				050D665E1ABF297700A16197 /* GHFile.m in Sources */,
 				05409C091A910E5900BDD34E /* Base64Transcoder.c in Sources */,
 				05409BC61A910B8E00BDD34E /* NSString+SBJSON.m in Sources */,
 				05409BE71A910D0B00BDD34E /* OAAttachment.m in Sources */,
 				057052BE19FBB38800C84DAB /* main.m in Sources */,
+				05B2F91E1AC03EDE0083BF18 /* ContentViewController.m in Sources */,
 				05409C0B1A910E5900BDD34E /* sha1.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

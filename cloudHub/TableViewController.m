@@ -31,11 +31,6 @@ GHUser *user;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     
     [self buildTableView];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)loadView
@@ -66,18 +61,11 @@ GHUser *user;
                                                  @"following",
                                                  @"created_at",
                                                  @"updated_at",
-                                                 
-                                                 /*
-                                                 NSString* private_gists;
-                                                 NSString* total_private_repos;
-                                                 NSString* owned_private_repos;
-                                                 NSString* disk_usage;
-                                                 NSString* collaborators;
-                                                 NSString* plan;*/
                                                  ]];
     
     
     // Register mappings with the provider using a response descriptor
+    
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     
@@ -86,8 +74,6 @@ GHUser *user;
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
     [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
-        
-        // For loop for debuggind reasons
         for(int i = 0; i < [mappingResult count]; i++){
             user = mappingResult.array[i];
             results = [[NSMutableArray alloc] initWithObjects: @"Events", @"Organizations", @"Followers", @"Following", @"Repositories", @"Gists", nil];
@@ -106,7 +92,7 @@ GHUser *user;
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         RKLogError(@"Operation failed with error: %@", error);
     }];
-    // Main Menu Interface
+
     [objectRequestOperation start];
 }
 
@@ -257,7 +243,6 @@ GHUser *user;
         [self presentViewController:theNavController animated:YES completion:NULL];    
     }
 }
-
 
 /*
 #pragma mark - Navigation

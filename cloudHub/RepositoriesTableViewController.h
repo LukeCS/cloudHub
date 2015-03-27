@@ -10,6 +10,8 @@
 
 @interface RepositoriesTableViewController : UITableViewController {
     NSMutableArray *results;
+    NSMutableArray *urls;
+    NSString *contentUrl;
 }
 
 @end

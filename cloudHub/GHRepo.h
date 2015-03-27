@@ -9,7 +9,7 @@
 @interface GHRepo : NSObject {
     NSNumber* id;
     NSString* name;
-    NSString* url;
+    NSString* contents_url;
 }
 
 @property (nonatomic, retain) NSNumber* id;

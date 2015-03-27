@@ -23,6 +23,8 @@
 @implementation RepositoriesTableViewController
 
 GHRepo *repo;
+NSUserDefaults *defaults;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,30 +43,22 @@ GHRepo *repo;
 
 - (void)backButtonPressed
 {
-    // write your code to prepare popview
+    // Dismiss Controller
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)loadView
 {
     [super loadView];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    defaults = [NSUserDefaults standardUserDefaults];
     
     RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHRepo class]];
     [userMapping addAttributeMappingsFromArray:@[@"id",
                                                  @"name",
                                                  @"contents_url"
-                                                 /*
-                                                  NSString* private_gists;
-                                                  NSString* total_private_repos;
-                                                  NSString* owned_private_repos;
-                                                  NSString* disk_usage;
-                                                  NSString* collaborators;
-                                                  NSString* plan;*/
                                                  ]];
     
-    
-    // register mappings with the provider using a response descriptor
+    // Register mappings with the provider using a response descriptor
     // Get user by name route. We create a class route here.
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
    
@@ -79,17 +73,14 @@ GHRepo *repo;
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
     [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
-
         results = [[NSMutableArray alloc] initWithObjects: nil];
         
         // Add mapping result to array.
         for(int i = 0; i < [mappingResult count]; i++){
             repo = mappingResult.array[i];
+            NSLog(@"%@", repo.contents_url);
+            [urls addObject:repo.contents_url];
             [results addObject:repo.name];
-            
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:repo.contents_url forKey:@"contents_url"];
-            
         }
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -115,7 +106,6 @@ GHRepo *repo;
     // Return the number of rows in the section.
     return results.count;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier =@"Cell";
@@ -169,7 +159,6 @@ GHRepo *repo;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here, for example:
     // Create the next view controller.
-    
     
     FilesTableViewController *filesViewController = [[FilesTableViewController alloc] initWithNibName:nil bundle:nil];
     
