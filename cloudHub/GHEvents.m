@@ -10,8 +10,19 @@
 #import "GHEvents.h"
 
 
-@implementation GHEvents : NSObject {
+@implementation GHEvents : NSObject
 
+- (void)load
+{
+
+}
+
+- (void)save
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:self.id forKey:@"id"];
+    [defaults setObject:self.name forKey:@"followers_url"];
+    [defaults setObject:self.url forKey:@"following_url"];
 }
 
 @end

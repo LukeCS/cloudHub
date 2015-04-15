@@ -9,6 +9,7 @@
 #import "ContentViewController.h"
 #import "RestKit/Restkit.h"
 #import "GHFile.h"
+#import "GHContent.h"
 @interface ContentViewController ()
 
 @end
@@ -16,14 +17,15 @@
 @implementation ContentViewController
 @synthesize content;
 
-GHFile *file;
+GHContent *file;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UITextField *tf = [[UITextField alloc] initWithFrame:CGRectMake(45, 30, 200, 100)];
-    tf.textColor = [UIColor whiteColor];
+    self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.textView.backgroundColor = [UIColor clearColor];
+    self.textView.textColor = [UIColor whiteColor];
     // Title.
     self.title = @"Files";
-    [self.view addSubview:tf];
+    [self.view addSubview:self.textView];
     // Back button.
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
     self.navigationItem.leftBarButtonItem = backButton;
@@ -42,7 +44,7 @@ GHFile *file;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHFile class]];
+    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHContent class]];
     [userMapping addAttributeMappingsFromArray:@[@"name",
                                                  @"path",
                                                  @"sha",
@@ -55,7 +57,6 @@ GHFile *file;
     
     // Register mappings with the provider using a response descriptor
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
     
     // Remove the optional parameter
     NSArray* urlParams = [[defaults objectForKey:@"content"] componentsSeparatedByString:@"{"];
@@ -73,16 +74,19 @@ GHFile *file;
         for(int i = 0; i < [mappingResult count]; i++){
             file = mappingResult.array[i];
             [results addObject:file.content];
-            content = file.content;
+            content = [file.content stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             NSLog(@"%@", content);
+            
+            
             // NSData from the Base64 encoded str
-            NSData *nsdataFromBase64String = [[NSData alloc]
-                                              initWithBase64EncodedString:content options:0];
+            NSData *nsdataFromBase64String = [[NSData alloc] initWithBase64EncodedString:content options:0];
             
             // Decoded NSString from the NSData
             NSString *base64Decoded = [[NSString alloc]
                                        initWithData:nsdataFromBase64String encoding:NSUTF8StringEncoding];
             NSLog(@"Decoded: %@", base64Decoded);
+            
+            self.textView.text = base64Decoded;
         }
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {

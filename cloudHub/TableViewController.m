@@ -39,28 +39,17 @@ GHUser *user;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *accessToken = [defaults objectForKey:@"access_token"];
     
-    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[TableViewController class]];
+    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHUser class]];
     [userMapping addAttributeMappingsFromArray:@[@"login",
                                                  @"id",
                                                  @"avatar_url",
-                                                 @"gravatar_id",
-                                                 @"url",
-                                                 @"html_url",
                                                  @"followers_url",
                                                  @"following_url",
-                                                 @"gists_url",
                                                  @"starred_url",
-                                                 @"subscriptions_url",
-                                                 @"organizations_url",
                                                  @"repos_url",
                                                  @"events_url",
-                                                 @"received_events_url",
-                                                 @"type",
-                                                 @"public_repos",
                                                  @"followers",
                                                  @"following",
-                                                 @"created_at",
-                                                 @"updated_at",
                                                  ]];
     
     
@@ -81,6 +70,7 @@ GHUser *user;
             [self.tableView reloadData];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             NSLog(@"%@", user.following_url);
+            
             [userDefaults setObject:user.followers_url forKey:@"followers_url"];
             [userDefaults setObject:user.following_url forKey:@"following_url"];
             [userDefaults setObject:user.events_url forKey:@"events_url"];

@@ -25,8 +25,12 @@
 GHRepo *repo;
 NSUserDefaults *defaults;
 
-
 - (void)viewDidLoad {
+    
+    //
+    
+    
+    
     [super viewDidLoad];
     self.title = @"Repositories";
     
@@ -77,10 +81,12 @@ NSUserDefaults *defaults;
         
         // Add mapping result to array.
         for(int i = 0; i < [mappingResult count]; i++){
+            
             repo = mappingResult.array[i];
             NSLog(@"%@", repo.contents_url);
             [urls addObject:repo.contents_url];
             [results addObject:repo.name];
+            [defaults setObject:urls forKey:@"urls"];
         }
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {

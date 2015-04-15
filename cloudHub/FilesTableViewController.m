@@ -16,10 +16,11 @@
 #import "GHContent.h"
 #import "ContentViewController.h"
 
-@interface FilesTableViewController ()
+@interface FilesTableViewController () {
+    
+}
 
 @end
-
 @implementation FilesTableViewController
 
 GHFile *files;
@@ -27,70 +28,32 @@ NSString *fileType;
 
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     // Title.
     self.title = @"Files";
     
     // Back button.
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(goBack)];
     self.navigationItem.leftBarButtonItem = backButton;
-    
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
 
-- (void)backButtonPressed
+- (void)goBack
 {
-    // Dismiss this controller.
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)loadView
 {
     [super loadView];
     
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHFile class]];
-    [userMapping addAttributeMappingsFromArray:@[@"name",
-                                                 @"path",
-                                                 @"sha",
-                                                 @"size",
-                                                 @"url",
-                                                 @"type"
-                                                 ]];
-    
-    
-    // Register mappings with the provider using a response descriptor
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    
-    // Remove the optional parameter
-    NSArray* urlParams = [[defaults objectForKey:@"contents_url"] componentsSeparatedByString:@"{"];
-    NSString* url = @"https://api.github.com/repos/LukeCS/cloudHub/contents";
-    NSLog(@"URL = %@", url);
-    
-    NSURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
-    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        
-        results = [[NSMutableArray alloc] initWithObjects: nil];
-        
-        // Add mapping result to array.
-        for(int i = 0; i < [mappingResult count]; i++){
-            files = mappingResult.array[i];
-            [results addObject:files.name];
-            [type addObject:files.type];
-        }
-        
-        [self.tableView reloadData];
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        RKLogError(@"Operation failed with error: %@", error);
-    }];
-    [objectRequestOperation start];
+    [self reloadResultsWithPathExtension:@""];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,22 +64,22 @@ NSString *fileType;
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     // Return the number of rows in the section.
     return results.count;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier =@"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    cell.textLabel.text=[NSString stringWithFormat:@"%@", [results objectAtIndex:indexPath.row]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [results objectAtIndex:indexPath.row]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
@@ -161,19 +124,91 @@ NSString *fileType;
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    if (indexPath.row == 1) {
+    
+    if ([self typeOfRowAtIndexPath:indexPath] == GHContentTypeFile) {
+        
+        // fileName
+        
         ContentViewController *contentController = [[ContentViewController alloc] initWithNibName:nil bundle:nil];
         
-        // Pass the selected object to the new view controller.
-        
-        // Push the view controller.
         [self.navigationController pushViewController:contentController animated:YES];
+    }
+    else {
+     
+        NSString *cellName = [self.tableView cellForRowAtIndexPath:indexPath].textLabel.text;
+        
+        [self reloadResultsWithPathExtension:cellName];
+        
+        [self.tableView reloadData];
     }
     
 }
 
+- (NSUInteger)typeOfRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 0;
+}
+
+- (NSURL *)urlWithPathExtension:(NSString *)pathExtension
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSArray* urlParams = [[defaults objectForKey:@"contents_url"] componentsSeparatedByString:@"{"];
+    
+    NSLog(@"%@", [defaults objectForKey:@"contents_url"]);
+    
+    NSLog(@"1: %@ 2: %@", [urlParams objectAtIndex:0], pathExtension);
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [urlParams objectAtIndex:0], pathExtension]];
+    
+    return url;
+}
+
+- (void)reloadResultsWithPathExtension:(NSString *)pathExtension
+{
+    
+    RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[GHFile class]];
+    
+    [userMapping addAttributeMappingsFromArray:@[@"name",
+                                                 @"path",
+                                                 @"sha",
+                                                 @"size",
+                                                 @"url",
+                                                 @"type"
+                                                 ]];
+    
+    // Register mappings with the provider using a response descriptor.
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping
+                                                                                            method:RKRequestMethodAny
+                                                                                       pathPattern:nil
+                                                                                           keyPath:@""
+                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    // Remove the optional parameter
+    //NSString* url = @"https://api.github.com/repos/LukeCS/cloudHub/contents"
+    
+    NSURLRequest *request = [NSMutableURLRequest requestWithURL:[self urlWithPathExtension:pathExtension]];
+    
+    NSLog(@"String: %@", [self urlWithPathExtension:pathExtension].absoluteString);
+    
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
+    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        
+        results = [[NSMutableArray alloc] initWithObjects: nil];
+        
+        // Add mapping result to array.
+        for(int i = 0; i < [mappingResult count]; i++){
+            files = mappingResult.array[i];
+            [results addObject:files.name];
+            [types addObject:files.type];
+        }
+        
+        [self.tableView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        RKLogError(@"Operation failed with error: %@", error);
+    }];
+    [objectRequestOperation start];
+}
 
 /*
 #pragma mark - Navigation

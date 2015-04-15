@@ -21,7 +21,10 @@
 }
 
 @property (nonatomic, retain) UIWebView *loginWebView;
-@property (nonatomic, retain) UILabel   *label3;
+@property (nonatomic, retain) UILabel *label3;
+@property (nonatomic, retain) UILabel *offlineLabel;
+@property (nonatomic, retain) UILabel *offlineLabel2;
+@property (nonatomic, retain) UIButton *backButton;
 @property (nonatomic, retain) NSString *isLogin;
 @end
 

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GHViewController.h"
 
 @interface RepositoriesTableViewController : UITableViewController {
     NSMutableArray *results;

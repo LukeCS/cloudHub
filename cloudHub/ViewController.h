@@ -16,6 +16,7 @@
 
 @property (nonatomic, retain) UIButton  *loginButton;
 @property (nonatomic, retain) UITableView *tableView;
+@property (nonatomic, retain) UILabel *welcomeLabel;
 //@property (nonatomic, retain) NSString *accessToken;
 
 @end

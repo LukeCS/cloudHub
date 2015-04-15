@@ -9,8 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "GHRepo.h"
 
-@implementation GHRepo : NSObject {
+@implementation GHRepo : NSObject
+
+- (void)load
+{
     
+    
+}
+
+
+- (void)save
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:self.id forKey:@"id"];
+    [defaults setObject:self.name forKey:@"name"];
+    [defaults setObject:self.url forKey:@"url"];
+    [defaults setObject:self.contents_url forKey:@"contents_url"];
 }
 
 @end

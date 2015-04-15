@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GHUser.h"
 
 @interface ContentViewController : UIViewController {
     NSMutableArray *results;
@@ -14,5 +15,5 @@
 }
 
 @property (nonatomic,retain) NSString *content;
-@property (nonatomic,retain) UITextField *tf;
+@property (nonatomic,retain) UITextView *textView;
 @end

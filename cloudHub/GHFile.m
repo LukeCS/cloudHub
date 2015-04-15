@@ -9,8 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "GHFile.h"
 
-@implementation GHFile : NSObject {
+@implementation GHFile : NSObject
+
+- (void)load
+{
     
+    
+}
+
+
+- (void)save
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:self.name forKey:@"name"];
+    [defaults setObject:self.path forKey:@"path"];
+    [defaults setObject:self.url forKey:@"url"];
+    [defaults setObject:self.type forKey:@"type"];
 }
 
 @end

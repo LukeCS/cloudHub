@@ -17,10 +17,7 @@
 
 @property (nonatomic, retain) NSString* name;
 @property (nonatomic, retain) NSString* path;
-@property (nonatomic, retain) NSString* sha;
-@property (nonatomic, retain) NSString* size;
 @property (nonatomic, retain) NSString* url;
 @property (nonatomic, retain) NSString* type;
-@property (nonatomic, retain) NSString* content;
 
 @end

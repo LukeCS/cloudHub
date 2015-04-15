@@ -78,7 +78,9 @@
     [self.loginWebView loadRequest: request];
 }
 
-
+-(void)retry {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 // -----------  Connection Methods -------------
 
@@ -187,13 +189,49 @@
     NSString *errorTitle = [NSString stringWithFormat:@"Error (%d)", error.code];
     
     // In this case, we need the error(-1004) to occur as we need the "code".
-    if (error.code != -1004 && error.code != 102) {
-        UIAlertView *errorView =
-        [[UIAlertView alloc] initWithTitle:errorTitle
-                                   message:errorString delegate:self cancelButtonTitle:nil
-                         otherButtonTitles:@"OK", nil];
-        [errorView show];
-    }// Carry on
+    if (error.code == -1009) {
+        
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        
+        [userDefaults setObject:0 forKey:@"offline"];
+
+        [self.loginWebView removeFromSuperview];
+        self.offlineLabel = [[UILabel alloc] init];
+        self.offlineLabel.frame = CGRectMake(0.0, 50.0, self.view.frame.size.width, 440.0);
+        self.offlineLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:24.0];
+        self.offlineLabel.textColor = [UIColor darkGrayColor];
+        self.offlineLabel.textAlignment = NSTextAlignmentCenter;
+        self.offlineLabel.text = @":( Seems like you have no";
+        
+        self.offlineLabel2 = [[UILabel alloc] init];
+        self.offlineLabel2.frame = CGRectMake(0.0, 50.0, self.view.frame.size.width, 540.0);
+        self.offlineLabel2.font = [UIFont fontWithName:@"Helvetica Neue" size:24.0];
+        self.offlineLabel2.textColor = [UIColor darkGrayColor];
+        self.offlineLabel2.textAlignment = NSTextAlignmentCenter;
+        self.offlineLabel2.text = @"internet connection";
+        
+        self.backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.backButton setTitle:@"Retry" forState:UIControlStateNormal];
+        self.backButton.frame = CGRectMake(0, 20, 320, 40);
+        self.backButton.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 + 50);
+        self.backButton.backgroundColor = [UIColor clearColor];
+        [self.backButton addTarget:self action:@selector(retry) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.view addSubview:self.backButton];
+        [self.view addSubview:self.offlineLabel];
+        [self.view addSubview:self.offlineLabel2];
+        
+    } else if (error.code != -1004 && error.code != 102) {
+            UIAlertView *errorView =
+            [[UIAlertView alloc] initWithTitle:errorTitle
+                                       message:errorString delegate:self cancelButtonTitle:nil
+                             otherButtonTitles:@"OK", nil];
+            [errorView show];
+
+
+    }
+    
+    // Carry on
 }
 
 // -----------  WebView Delegate Methods End  ---------
